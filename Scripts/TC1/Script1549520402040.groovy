@@ -1,52 +1,52 @@
-import static com.kms.katalon.core.checkpoint.CheckpointFactory.findCheckpoint
-import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-import static com.kms.katalon.core.testdata.TestDataFactory.findTestData
-import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
-import com.kms.katalon.core.checkpoint.Checkpoint as Checkpoint
-import com.kms.katalon.core.cucumber.keyword.CucumberBuiltinKeywords as CucumberKW
-import com.kms.katalon.core.mobile.keyword.MobileBuiltInKeywords as Mobile
-import com.kms.katalon.core.model.FailureHandling as FailureHandling
-import com.kms.katalon.core.testcase.TestCase as TestCase
-import com.kms.katalon.core.testdata.TestData as TestData
-import com.kms.katalon.core.testobject.TestObject as TestObject
-import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-import internal.GlobalVariable as GlobalVariable
-
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import java.nio.file.Files
-
-import com.kms.katalon.core.configuration.RunConfiguration
-import com.jayway.jsonpath.JsonPath
 import com.jayway.jsonpath.Configuration
+import com.jayway.jsonpath.JsonPath
+import com.kms.katalon.core.configuration.RunConfiguration
 
 import groovy.json.JsonOutput
 
+/**
+ * TC1 --- a demonstration how to use Jayway JsonPath in order to parse
+ * a JSON as Web Service Response.
+ * 
+ * Jayway JsonPath is available at https://github.com/json-path/JsonPath
+ * 
+ * The target JSON is shown in the following post in the Katalon Forum.
+ * https://forum.katalon.com/t/get-json-value-with-skipping-1st-and-2nd-level-of-dynamic-value/18972/5
+ */
+
+
+
+/**
+ * format a Object into a JSON string
+ */
 def prettyPrint(obj) {
 	return JsonOutput.prettyPrint(JsonOutput.toJson(obj))	
 }
 
-/**
- * Example of applying Jayway JsonPath to read Web Service Response
- * 
- * see https://github.com/json-path/JsonPath
- */
+// json file as input
 Path projectDir = Paths.get(RunConfiguration.getProjectDir())
 Path responseFile = projectDir.resolve('Include/resources/fixture/response.json')
 
 // read the file
 def json = responseFile.toFile().getText('UTF-8')
+
+// parse the text, turn it into a JSON document
 Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
 
-// just to see
+// just to see the document conent
 //WebUI.comment(json)
 
+// Case 0 - see the root 
+def fragment0 = JsonPath.read(document, '$')
+println "\n---------- Case 0 ----------\n" + prettyPrint(fragment0)
 
-List<Map> map1 = JsonPath.read(document, '$.*.*')
-println prettyPrint(map1)
-/* here you will see following output
+// Case 1
+def fragment1 = JsonPath.read(document, '$.*.*')
+println "\n---------- Case 1 ----------\n" + prettyPrint(fragment1)
+/* here you will see
 [
     {
         "-1": {
@@ -64,18 +64,115 @@ println prettyPrint(map1)
 ]
  */
 
+// Case 2
+def fragment2 = JsonPath.read(document, '$.*.*.*')
+println "\n---------- Case 2 ----------\n" + prettyPrint(fragment2)
+/* here you will see 
+[
+    {
+        "build": "",
+        "createdDate": "",
+        "description": "",
+        "endDate": "",
+        "ended": "",
+        "environment": "",
+        "executionSummaries": {
+            "executionSummary": [
+                
+            ]
+        },
+        "expand": "executionSummaries",
+        "isExecutionWorkflowEnabledForProject": true,
+        "isTimeTrackingEnabled": true,
+        "modifiedBy": "",
+        "name": "Ad hoc",
+        "projectId": 14900,
+        "projectKey": "TUT",
+        "startDate": "",
+        "started": "",
+        "totalCycleExecutions": 2,
+        "totalExecuted": 0,
+        "totalExecutions": 0,
+        "versionId": -1,
+        "versionName": "Unscheduled"
+    },
+    {
+        "build": "",
+        "createdBy": "sysadmin",
+        "createdByDisplay": "System Administrator",
+        "createdDate": "2019-01-30 17:41:12.403",
+        "description": "Create cycle from Katalon",
+        "endDate": "",
+        "ended": "",
+        "environment": "",
+        "executionSummaries": {
+            "executionSummary": [
+                
+            ]
+        },
+        "expand": "executionSummaries",
+        "isExecutionWorkflowEnabledForProject": true,
+        "isTimeTrackingEnabled": true,
+        "modifiedBy": "sysadmin",
+        "name": "ST Cycle 1",
+        "projectId": 14900,
+        "projectKey": "TUT",
+        "sprintId": 1,
+        "startDate": "",
+        "started": "",
+        "totalCycleExecutions": 1,
+        "totalDefects": 0,
+        "totalExecuted": 0,
+        "totalExecutions": 0,
+        "totalFolders": 0,
+        "versionId": -1,
+        "versionName": "Unscheduled"
+    },
+    2
+]
+ */
+
+// Case 3
+def fragment3 = JsonPath.read(document, '$.*.*.*.name')
+println "\n---------- Case 3 ----------\n" + prettyPrint(fragment3)
+/* here you will see
+[
+    "Ad hoc",
+    "ST Cycle 1"
+]
+ */
 
 
-def lookup(doc, valueOfName) {
+// Case 4
+def fragment4 = JsonPath.read(document, '$.*.*.*[?(@.name==\'ST Cycle 1\')].createdDate')
+println "\n---------- Case 4 ----------\n" + prettyPrint(fragment4)
+/* here you will see
+[
+	"2019-01-30 17:41:12.403"
+]
+ */
+
+
+/**
+ * a function to look up Cycle Id in the response from Zephyr
+ * see https://forum.katalon.com/t/get-json-value-with-skipping-1st-and-2nd-level-of-dynamic-value/18972 for the definition of the problem
+ * 
+ * Here I want to lookup the key "13" out of {.., "13":{.., "name":"ST Cycle 1", ..}, ..}
+ * 
+ * What a terrible format of input JSON! I dislike it. It should rather be:
+ *     [ ..., {"id":"13", "name":"ST Cycle 1", ...}, ... ]
+ * 
+ * @param doc
+ * @param cycleName
+ * @return
+ */
+def lookupCycleId(doc, cycleName) {
 	List<Map> map2 = JsonPath.read(doc, '$.*.*')
-	println "map2.size() = ${map2.size()}"
 	for (Map m : map2) {
-		println prettyPrint(m)
 		Set<String> keySet = m.keySet()
 		for (String key : keySet) {
-			println "key=$key"   // key= "-1", "13", "recordsCount"
 			Map map3 = m.get(key)
-			if (map3.name == valueOfName) {
+			if (map3.name == cycleName) {
 				return key
 			}	
 		}
@@ -83,6 +180,7 @@ def lookup(doc, valueOfName) {
 	return null
 }
 
-// I want to lookup the key "13" output the object {.., "13":{.., "name":"ST Cycle 1", ..}, ..}
-String wyw = lookup(document, "ST Cycle 1")
-println "what you want is ${wyw}"
+// Case 5
+String cycleId = lookupCycleId(document, "ST Cycle 1")
+println "\n---------- Case 4 ----------\n" + 
+			"Cycle Id of 'ST Cycle 1' is ${cycleId}\n"
