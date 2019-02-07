@@ -91,8 +91,8 @@ Evan, the questioner, tried to parse the JSON using JsonSlurper, tried to consum
 
 ## Solution
 
-Previously, [Vinh_Nguyen suggested](https://forum.katalon.com/t/capture-response-id-from-put-rest-api/16069/8) [JsonPath](https://github.com/json-path/JsonPath/releases
-) to analyze and selectively extract data out of JSON document. I think [JsonPath](https://github.com/json-path/JsonPath/releases
+Previously, [Vinh_Nguyen suggested](https://forum.katalon.com/t/capture-response-id-from-put-rest-api/16069/8) [JsonPath](https://github.com/json-path/JsonPath
+) to analyze and selectively extract data out of JSON document. I think [JsonPath](https://github.com/json-path/JsonPath
 ) would be a powerful tool for anybody who wants to process Web Service Responses in JSON. However nobody in Katalon Forum posted sample which shows how to use JsonPath.
 
 Then, I will do it.
@@ -118,7 +118,7 @@ The input file is located at [`Include/resources/fixture/response.json`](Include
 
 Here I show the code snippet and corresponding outputs. I would not describe the meanings of JsonPath expressions here. Please read the original [Jayway JsonPath](https://github.com/json-path/JsonPath) document for detail.
 
-#### Case0
+#### Case0 : show the JSON as is
 code:
 ```
 Path projectDir = Paths.get(RunConfiguration.getProjectDir())
@@ -200,7 +200,7 @@ output:
 }
 ```
 
-#### Case1
+#### Case1 : skipping the upper levels
 code:
 ```
 def fragment1 = JsonPath.read(document, '$.*.*')
@@ -276,7 +276,7 @@ output:
 ]
 ```
 
-#### Case2
+#### Case2 : skipping more
 code:
 ```
 def fragment2 = JsonPath.read(document, '$.*.*.*')
@@ -349,7 +349,7 @@ output:
 ]
 ```
 
-#### Case3
+#### Case3 : getting the values of `name`
 code:
 ```
 def fragment3 = JsonPath.read(document, '$.*.*.*.name')
@@ -364,7 +364,7 @@ output:
 ]
 ```
 
-#### Case4
+#### Case4 : filtering nodes by the value of `name`
 code:
 ```
 def fragment4 = JsonPath.read(document, '$.*.*.*[?(@.name==\'ST Cycle 1\')].createdDate')
@@ -379,7 +379,7 @@ output:
 ]
 ```
 
-#### Case 5
+#### Case 5 : extracting key value requires tricks
 code:
 ```
 def lookupCycleId(doc, cycleName) {
