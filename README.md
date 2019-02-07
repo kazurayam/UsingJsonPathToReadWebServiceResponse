@@ -426,4 +426,4 @@ I would rather like it to be in the format as follows:
         ...
     ]
 ```
-The information contained here is no less than the original. The proposed format is far easier to look up Cycle Id value with key of `name` value. You can look up "13" by a simple JsonPath `$.*[name=='ST Cycle 1'][0].cycleId`. You do not need the lengthy `def lookupCycleId()` function.
+The information contained here is no less than the original. The proposed format is far easier to look up Cycle Id. You can look up "13" by a simple JsonPath `$.*[name=='ST Cycle 1'][0].cycleId`. You do not need the lengthy `def lookupCycleId()` function.
