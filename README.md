@@ -408,9 +408,9 @@ Cycle Id of 'ST Cycle 1' is 13
 
 ## Notes
 
-The Zephyr for JIRA's original format uses Cycle ID (e.g, "13") as a key of Json object. Why do they do that? This makes consumer programs a lot complicated.
+The Zephyr for JIRA's original format uses Cycle ID (e.g, "13") as the key of Json objects. Why do they do that? I can't believe this! This makes consumer programs a lot complicated.
 
-Pity, Evan. I feel your pain. The poorly designed JSON format is the cause of your problems.
+Pity, Evan. I feel your pain. Poorly designed JSON format is the cause of your problems.
 
 I would rather like it to be in the format as follows:
 
