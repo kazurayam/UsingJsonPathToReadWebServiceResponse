@@ -6,7 +6,7 @@ by kazurayam
 
 ## What is this?
 
-This is a small [Katalon Studio](https://www.katalon.com/) project for demonstration purpose. You can download the zip of this project at the [Realeases](https://github.com/kazurayam/UsingJsonPathToReadWebServiceResponse/releases) page. You can download it, unzip it, and open it with your Katalon Studio.
+This is a small [Katalon Studio](https://www.katalon.com/) project for demonstration purpose. You can download the zip of this project at the [Releases](https://github.com/kazurayam/UsingJsonPathToReadWebServiceResponse/releases) page.
 
 This project was developed using Katalon Studio version 5.10.1.
 
@@ -87,12 +87,15 @@ The questioner has a JSON text as follows:
 He wants to look up "13" out of this JSON. He wants to do it with the `"name": "ST Cycle 1"` portion as key for look up.
 
 
-Evan, the questioner, tried to parse the JSON using JsonSlurper, tried to consume it using basic Groovy language constructs (Iterator, for loop, etc). He found it.
+Evan, the questioner, tried to parse the JSON using JsonSlurper, tried to consume it using basic Groovy language constructs (Iterator, for loop, etc). He found it difficult.
 
 ## Solution
 
 Previously, [Vinh_Nguyen suggested](https://forum.katalon.com/t/capture-response-id-from-put-rest-api/16069/8) [JsonPath](https://github.com/json-path/JsonPath/releases
-) to analyze and selectively extract data out of JSON document. I think JsonPath could be a powerful tool for anybody who wants to process Web Service Responses in JSON. However it seems nobody in Katalon Forum has tried it yet. Then let me try.
+) to analyze and selectively extract data out of JSON document. I think [JsonPath](https://github.com/json-path/JsonPath/releases
+) would be a powerful tool for anybody who wants to process Web Service Responses in JSON. However nobody in Katalon Forum posted sample which shows how to use JsonPath.
+
+Then, I will do it.
 
 ## Description
 
