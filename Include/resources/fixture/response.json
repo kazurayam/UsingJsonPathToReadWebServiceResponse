@@ -1,0 +1,66 @@
+{
+    "-1": [
+        {
+            "-1": {
+                "build": "",
+                "createdDate": "",
+                "description": "",
+                "endDate": "",
+                "ended": "",
+                "environment": "",
+                "executionSummaries": {
+                    "executionSummary": [
+                        
+                    ]
+                },
+                "expand": "executionSummaries",
+                "isExecutionWorkflowEnabledForProject": true,
+                "isTimeTrackingEnabled": true,
+                "modifiedBy": "",
+                "name": "Ad hoc",
+                "projectId": 14900,
+                "projectKey": "TUT",
+                "startDate": "",
+                "started": "",
+                "totalCycleExecutions": 2,
+                "totalExecuted": 0,
+                "totalExecutions": 0,
+                "versionId": -1,
+                "versionName": "Unscheduled"
+            },
+            "13": {
+                "build": "",
+                "createdBy": "sysadmin",
+                "createdByDisplay": "System Administrator",
+                "createdDate": "2019-01-30 17:41:12.403",
+                "description": "Create cycle from Katalon",
+                "endDate": "",
+                "ended": "",
+                "environment": "",
+                "executionSummaries": {
+                    "executionSummary": [
+                        
+                    ]
+                },
+                "expand": "executionSummaries",
+                "isExecutionWorkflowEnabledForProject": true,
+                "isTimeTrackingEnabled": true,
+                "modifiedBy": "sysadmin",
+                "name": "ST Cycle 1",
+                "projectId": 14900,
+                "projectKey": "TUT",
+                "sprintId": 1,
+                "startDate": "",
+                "started": "",
+                "totalCycleExecutions": 1,
+                "totalDefects": 0,
+                "totalExecuted": 0,
+                "totalExecutions": 0,
+                "totalFolders": 0,
+                "versionId": -1,
+                "versionName": "Unscheduled"
+            },
+            "recordsCount": 2
+        }
+    ]
+}
