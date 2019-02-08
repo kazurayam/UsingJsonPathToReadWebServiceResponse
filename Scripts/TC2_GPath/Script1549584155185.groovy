@@ -47,7 +47,7 @@ def fragment0 = document
 println "\n---------- Case 0 ----------\n" + prettyPrint(fragment0)
 
 // Case 1
-def fragment1 = document.'-1'
+def fragment1 = document.'-1'[0]
 println "\n---------- Case 1 ----------\n" + prettyPrint(fragment1)
 /* here you will see
 [
@@ -68,76 +68,88 @@ println "\n---------- Case 1 ----------\n" + prettyPrint(fragment1)
  */
 
 // Case 2
-def fragment2 = document.'-1'[0].'-13'
+def fragment2 = document.'-1'[0].collect({ it })
 println "\n---------- Case 2 ----------\n" + prettyPrint(fragment2)
 /* here you will see
 [
-	{
-		"build": "",
-		"createdDate": "",
-		"description": "",
-		"endDate": "",
-		"ended": "",
-		"environment": "",
-		"executionSummaries": {
-			"executionSummary": [
-				
-			]
-		},
-		"expand": "executionSummaries",
-		"isExecutionWorkflowEnabledForProject": true,
-		"isTimeTrackingEnabled": true,
-		"modifiedBy": "",
-		"name": "Ad hoc",
-		"projectId": 14900,
-		"projectKey": "TUT",
-		"startDate": "",
-		"started": "",
-		"totalCycleExecutions": 2,
-		"totalExecuted": 0,
-		"totalExecutions": 0,
-		"versionId": -1,
-		"versionName": "Unscheduled"
-	},
-	{
-		"build": "",
-		"createdBy": "sysadmin",
-		"createdByDisplay": "System Administrator",
-		"createdDate": "2019-01-30 17:41:12.403",
-		"description": "Create cycle from Katalon",
-		"endDate": "",
-		"ended": "",
-		"environment": "",
-		"executionSummaries": {
-			"executionSummary": [
-				
-			]
-		},
-		"expand": "executionSummaries",
-		"isExecutionWorkflowEnabledForProject": true,
-		"isTimeTrackingEnabled": true,
-		"modifiedBy": "sysadmin",
-		"name": "ST Cycle 1",
-		"projectId": 14900,
-		"projectKey": "TUT",
-		"sprintId": 1,
-		"startDate": "",
-		"started": "",
-		"totalCycleExecutions": 1,
-		"totalDefects": 0,
-		"totalExecuted": 0,
-		"totalExecutions": 0,
-		"totalFolders": 0,
-		"versionId": -1,
-		"versionName": "Unscheduled"
-	},
-	2
+    {
+        "value": {
+            "build": "",
+            "createdDate": "",
+            "description": "",
+            "endDate": "",
+            "ended": "",
+            "environment": "",
+            "executionSummaries": {
+                "executionSummary": [
+                    
+                ]
+            },
+            "expand": "executionSummaries",
+            "isExecutionWorkflowEnabledForProject": true,
+            "isTimeTrackingEnabled": true,
+            "modifiedBy": "",
+            "name": "Ad hoc",
+            "projectId": 14900,
+            "projectKey": "TUT",
+            "startDate": "",
+            "started": "",
+            "totalCycleExecutions": 2,
+            "totalExecuted": 0,
+            "totalExecutions": 0,
+            "versionId": -1,
+            "versionName": "Unscheduled"
+        },
+        "key": "-1"
+    },
+    {
+        "value": {
+            "build": "",
+            "createdBy": "sysadmin",
+            "createdByDisplay": "System Administrator",
+            "createdDate": "2019-01-30 17:41:12.403",
+            "description": "Create cycle from Katalon",
+            "endDate": "",
+            "ended": "",
+            "environment": "",
+            "executionSummaries": {
+                "executionSummary": [
+                    
+                ]
+            },
+            "expand": "executionSummaries",
+            "isExecutionWorkflowEnabledForProject": true,
+            "isTimeTrackingEnabled": true,
+            "modifiedBy": "sysadmin",
+            "name": "ST Cycle 1",
+            "projectId": 14900,
+            "projectKey": "TUT",
+            "sprintId": 1,
+            "startDate": "",
+            "started": "",
+            "totalCycleExecutions": 1,
+            "totalDefects": 0,
+            "totalExecuted": 0,
+            "totalExecutions": 0,
+            "totalFolders": 0,
+            "versionId": -1,
+            "versionName": "Unscheduled"
+        },
+        "key": "13"
+    },
+    {
+        "value": 2,
+        "key": "recordsCount"
+    }
 ]
+
  */
 
 // Case 3
-//def fragment3 = document.'-1'.'*'.name
-//println "\n---------- Case 3 ----------\n" + prettyPrint(fragment3)
+def fragment3 = document.'-1'[0].
+						findAll({ it.value instanceof Map }).
+						collect({ it.value.name })
+println "\n---------- Case 3 ----------\n" + prettyPrint(fragment3)
 /* here you will see
 [
 	"Ad hoc",
@@ -147,8 +159,10 @@ println "\n---------- Case 2 ----------\n" + prettyPrint(fragment2)
 
 
 // Case 4
-//def fragment4 = document.'-1'.'*'.find {it.value.name=='ST Cycle 1'}.createdDate
-//println "\n---------- Case 4 ----------\n" + prettyPrint(fragment4)
+def fragment4 = document.'-1'[0].
+					findAll({ it.value instanceof Map && it.value.name == 'ST Cycle 1' }).
+					collect({ it.value }).createdDate
+println "\n---------- Case 4 ----------\n" + prettyPrint(fragment4)
 /* here you will see
 [
 	"2019-01-30 17:41:12.403"
@@ -156,8 +170,10 @@ println "\n---------- Case 2 ----------\n" + prettyPrint(fragment2)
  */
 
 // Case 5
-//def fragment 5 = document.'-1'.'*'.find {it.value.name='ST Cycle 1'}.find {it.key}
-//println "\n---------- Case 4 ----------\n" +
-//			"Cycle Id of 'ST Cycle 1' is ${cycleId}\n"
+def cycleId = document.'-1'[0].
+				findAll({ it.value instanceof Map && it.value.name == 'ST Cycle 1'}).
+				collect({ it.key })[0]
+println "\n---------- Case 4 ----------\n" +
+			"Cycle Id of 'ST Cycle 1' is ${cycleId}\n"
 			
 
