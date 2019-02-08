@@ -9,7 +9,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 /**
- * TC1 --- a demonstration how to use extract data from JSON-originated object
+ * TC2 --- a demonstration how to use extract data from JSON-originated object
  * using findXXX(Closure) method. We will parse a JSON as Web Service Response.
  *
  * See
