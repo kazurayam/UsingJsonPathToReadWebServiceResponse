@@ -9,11 +9,12 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 /**
- * TC1 --- a demonstration how to use GPath in order to parse
- * a JSON as Web Service Response.
+ * TC1 --- a demonstration how to use extract data from JSON-originated object
+ * using findXXX(Closure) method. We will parse a JSON as Web Service Response.
  *
- * GPath is explained at 
- * http://docs.groovy-lang.org/latest/html/documentation/core-semantics.html#gpath_expressions
+ * See
+ * http://mrhaki.blogspot.com/2009/10/groovy-goodness-finding-data-in.html
+ * for sample code of finding data in Collection in Groovy.
  * 
  * The target JSON is shown in the following post in the Katalon Forum.
  * https://forum.katalon.com/t/get-json-value-with-skipping-1st-and-2nd-level-of-dynamic-value/18972/5
